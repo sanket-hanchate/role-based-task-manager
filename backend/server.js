@@ -1,12 +1,19 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-require('dotenv').config();
 
+const authRoutes = require("./routes/authRoutes");
+const taskRoutes = require("./routes/taskRoutes");
+const adminRoutes = require("./routes/adminRoutes");
+
+require('dotenv').config();
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use('/api/auth', authRoutes);
+app.use("/api/tasks", taskRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.get('/', (req, res) => {
     res.send("API is running...");
@@ -25,3 +32,4 @@ mongoose.connect(process.env.MONGO_URI)
 .catch((error) => {
     console.log("Error connecting to MongoDB:", error);
 })
+
